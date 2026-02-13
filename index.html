@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A little path for you 🤍</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  background: white;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* Decorations */
+.flower { position: fixed; font-size: 26px; opacity: 0.35; }
+.f1 { top: 15px; left: 15px; }
+.f2 { top: 15px; right: 15px; }
+.f3 { bottom: 15px; left: 15px; }
+.f4 { bottom: 15px; right: 15px; }
+
+.heart {
+  position: fixed;
+  font-size: 16px;
+  color: #ff9dbb;
+  animation: float 9s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes float {
+  from { transform: translateY(100vh); }
+  to { transform: translateY(-10vh); opacity: 0; }
+}
+
+.cat {
+  font-size: 34px;
+  animation: bounce 2.6s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.section {
+  min-height: 100vh;
+  padding: 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+}
+
+button {
+  margin-top: 28px;
+  padding: 14px 30px;
+  border-radius: 30px;
+  border: none;
+  background: #ff9dbb;
+  color: white;
+  font-size: 18px;
+  transition: transform 0.2s;
+}
+
+button.alt {
+  background: #ffe4ec;
+  color: #ff6b91;
+}
+
+button:hover { transform: scale(1.05); }
+
+.cards {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.card {
+  width: 100px;
+  height: 130px;
+  background: #ffe6ef;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.gift, .ring, .final-heart {
+  font-size: 90px;
+}
+
+.final-heart { color: red; }
+
+img.final {
+  width: 85%;
+  max-width: 320px;
+  border-radius: 20px;
+  margin-top: 30px;
+}
+
+.error { color: #ff4d6d; margin-top: 15px; }
+</style>
+</head>
+
+<body>
+
+<audio id="music" src="music.mp3" loop></audio>
+
+<!-- Decorations -->
+<div class="flower f1">🌸</div>
+<div class="flower f2">🌷</div>
+<div class="flower f3">🌸</div>
+<div class="flower f4">🌷</div>
+
+<div class="heart" style="left:25%;">💗</div>
+<div class="heart" style="left:55%;">💕</div>
+<div class="heart" style="left:80%;">💞</div>
+
+<section class="section" id="s1">
+  <div class="cat">🐱💌</div>
+  <p>A letter is waiting for you</p>
+  <button onclick="start()">Open the letter</button>
+</section>
+
+<section class="section" id="s2">
+  <p>
+    This path is gentle.<br>
+    Walk at your own pace 🤍
+  </p>
+  <div class="cat">🐱💗</div>
+  <button onclick="go('s3')">Continue</button>
+</section>
+
+<section class="section" id="s3">
+  <h2>Will you be my Valentine?</h2>
+  <button onclick="go('s4')">Yes 💖</button>
+  <button class="alt" onmouseover="flee(this)">No</button>
+  <button class="alt" onmouseover="flee(this)">Maybe</button>
+  <button class="alt" onmouseover="flee(this)">I don't know</button>
+</section>
+
+<section class="section" id="s4">
+  <p>Flip the cards 🤍</p>
+  <div class="cards">
+    <div class="card" onclick="this.innerText='You are brave'">🃏</div>
+    <div class="card" onclick="this.innerText='You are amazing'">🃏</div>
+    <div class="card" onclick="this.innerText='Be proud of yourself'">🃏</div>
+  </div>
+  <button onclick="go('s5')">Continue</button>
+</section>
+
+<section class="section" id="s5">
+  <p>A gift for you 🎁</p>
+  <div class="gift" onclick="openGift()">🎁</div>
+  <p id="giftText"></p>
+</section>
+
+<section class="section" id="s6">
+  <p id="msg1">
+    Congratulations, you are incredible.<br><br>
+    If you reached this far,<br>
+    it's time for me to ask you…
+  </p>
+  <button onclick="changeMsg()">Continue</button>
+</section>
+
+<section class="section" id="s7">
+  <p>I am better than Balde 😌</p>
+  <button onclick="go('s8')">Yes</button>
+  <button class="alt" onclick="error()">No</button>
+  <p class="error" id="err"></p>
+</section>
+
+<section class="section" id="s8">
+  <div class="ring">💍</div>
+  <p>A simple promise</p>
+  <button onclick="go('s9')">Continue</button>
+</section>
+
+<section class="section" id="s9">
+  <p>
+    I know it’s difficult, Eli.<br><br>
+    But you will overcome every challenge in this world.<br><br>
+    I believe in you. I trust you.<br><br>
+    I am your sword 🗡️<br>
+    Never forget you can use me to protect yourself.
+  </p>
+  <button onclick="go('s10')">🤍</button>
+</section>
+
+<section class="section" id="s10">
+  <div class="final-heart">❤️</div>
+  <p>I love you Eli<br>You are my snb jit</p>
+  <img src="final.jpg" class="final">
+</section>
+
+<script>
+function start(){
+  document.getElementById("music").play();
+  go('s2');
+}
+function go(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+function flee(btn){
+  btn.style.transform =
+    `translate(${Math.random()*140-70}px, ${Math.random()*140-70}px)`;
+}
+let giftClicks = 0;
+function openGift(){
+  giftClicks++;
+  if(giftClicks >= 3){
+    document.getElementById("giftText").innerText =
+      "Congratulations 🤍 you are amazing";
+    setTimeout(()=>go('s6'),1200);
+  }
+}
+function changeMsg(){
+  document.getElementById("msg1").innerText = "I am better than Balde";
+  setTimeout(()=>go('s7'),1000);
+}
+function error(){
+  document.getElementById("err").innerText =
+    "This function is not available because Chim is the best in the world";
+}
+</script>
+
+</body>
+</html>
